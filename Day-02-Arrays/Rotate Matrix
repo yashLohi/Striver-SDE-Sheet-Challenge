@@ -1,0 +1,74 @@
+######## Coding ninjas ############
+public class Solution {
+    public static void rotateMatrix(ArrayList<ArrayList<Integer>> mat, int n, int m) {
+        int[][] ans = new int[n][m];
+        for(int[] arr: ans) Arrays.fill(arr, Integer.MIN_VALUE);
+        if(m==1 || n==1) return;
+        
+        int iStart = 0; int jStart = 0;
+        int iEnd = n; int jEnd =m; 
+        while(iStart<iEnd && jStart<jEnd) {
+            rotate(iStart, jStart, iEnd, jEnd, mat,  ans);
+            iStart+=1; jStart+=1;
+            iEnd-=1; jEnd-=1;
+        }
+
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<m;j++) {
+                if(ans[i][j]==Integer.MIN_VALUE) continue; 
+                else mat.get(i).set(j, ans[i][j]);
+            }
+        }
+       
+    }
+
+    public static void rotate(int i, int j, int n, int m, ArrayList<ArrayList<Integer>> mat, int[][] ans) {
+        int row = n-i; int col = m-j;
+        if(row==1 || col==1) return;
+        //first row
+
+        for(int idx=j;idx<m-1;idx++) {
+            ans[i][idx+1] = mat.get(i).get(idx);
+        }
+
+        // last col
+        for(int idx=i;idx<n-1;idx++) {
+            ans[idx+1][m-1] = mat.get(idx).get(m-1);
+        }
+
+        //last row
+
+        for(int idx=m-1;idx>j;idx--) {
+            ans[n-1][idx-1] = mat.get(n-1).get(idx);
+        }
+
+        //first col
+        for(int idx=n-1;idx>i;idx--) {
+            ans[idx-1][j] = mat.get(idx).get(j);
+        }
+    }
+}
+
+##########  LeetCode ########
+
+class Solution{
+    public void rotate(int[][] matrix){
+        for(int i = 0; i<matrix.length; i++){
+            for(int j = i; j<matrix[0].length; j++){
+                int temp =0;
+                temp = matrix[i][j];
+                matrix[i][j] = matrix[j][i];
+                matrix[j][i] = temp;
+            }
+        } 
+
+        for(int i =0; i<matrix.length; i++){
+            for(int j =0; j<matrix.length/2; j++){
+                int temp = 0;
+                temp = matrix[i][j];
+                matrix[i][j] = matrix[i][matrix.length -1 - j];
+                matrix[i][matrix.length - 1 -j] = temp;
+            }
+        }
+    }
+}
